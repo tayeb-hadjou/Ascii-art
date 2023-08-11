@@ -1,5 +1,6 @@
 import cv2
 letter = ['@', '%', '#', '*', 'o','=','-',':',',','.']
+pbs=1 #pixel block size
 
 #gray scale 
 def get_gray_scale(file_name):
@@ -12,13 +13,15 @@ def get_gray_scale(file_name):
     return gs_image
 
 def image_to_string_aon(file_name):
+    
     img = cv2.imread(file_name )
+    img = cv2.resize(img, (500, 500))
     img_height = img.shape[0]
     img_width = img.shape[1]
     print(img_height,img_width)
-    for i in range(0,img_height,5):
-        for j in range(0,img_height,5):
-            avg = img[i:i+5,j:j+5].mean()
+    for i in range(0,img_height,pbs):
+        for j in range(0,img_height,pbs):
+            avg = img[i:i+pbs,j:j+pbs].mean()
             if(avg>=0):
                 test= letter[(int(avg)//26)]
                 print(test,end="")
