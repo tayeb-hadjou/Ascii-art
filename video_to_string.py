@@ -11,6 +11,7 @@ def video_to_string(video_path):
         else:
             break
 
+
 if __name__ == '__main__':
     video_path='video.mp4'
     video_to_string(video_path)
