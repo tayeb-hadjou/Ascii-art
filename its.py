@@ -1,8 +1,8 @@
 import cv2
-from util import PBS,COMBINATION,RESIZE_IMAGE
-NBR_LETTER=5
+from util import PBS,COMBINATION,RESIZE_WEBCAM
+NBR_LETTER=92
 pbs=PBS
-resize = RESIZE_IMAGE
+resize = RESIZE_WEBCAM
 letter=COMBINATION["letter_"+str(NBR_LETTER)]["letter"]
 div=COMBINATION["letter_"+str(NBR_LETTER)]["div"]
 
@@ -29,7 +29,7 @@ def image_to_string_aon(file_name):
         print()
 #main
 def main():
-    file_name = "test1.jpeg"
+    file_name = "test.jpg"
     gs_image = get_gray_scale(file_name)
     image_to_string_aon(gs_image)
 #main 

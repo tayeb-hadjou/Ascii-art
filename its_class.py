@@ -1,19 +1,18 @@
 import cv2
-from util import PBS,COMBINATION,RESIZE_WEBCAM
+from util import COMBINATION
 
-NBR_LETTER=5
-pbs=PBS
-resize = RESIZE_WEBCAM
-letter=COMBINATION["letter_"+str(NBR_LETTER)]["letter"]
-div=COMBINATION["letter_"+str(NBR_LETTER)]["div"]
 
 class ImageToString:
-    def __init__(self,frame):
+    def __init__(self,frame,params):
         self.frame = frame 
+        self.resize = params["fs"]
+        self.letter = COMBINATION["letter_"+str(params["nbrL"])]["letter"]
+        self.div = COMBINATION["letter_"+str(params["nbrL"])]["div"]
+        self.pbs = 1
     #gray scale 
     def get_gray_scale(self,frame):
         img = frame
-        img = cv2.resize(img, resize)
+        img = cv2.resize(img, self.resize)
         img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
         return img_gray
 
@@ -22,10 +21,10 @@ class ImageToString:
         img_gray = self.get_gray_scale(self.frame)
         img_height = img_gray.shape[0]
         img_width = img_gray.shape[1]
-        for i in range(0,img_height,pbs):
-            for j in range(0,img_width,pbs):
-                avg = img_gray[i:i+pbs,j:j+pbs].mean()
-                text += letter[(int(avg)//div)]
+        for i in range(0,img_height,self.pbs):
+            for j in range(0,img_width,self.pbs):
+                avg = img_gray[i:i+self.pbs,j:j+self.pbs].mean()
+                text += self.letter[(int(avg)//self.div)]
             text += "\n"
         return text
     

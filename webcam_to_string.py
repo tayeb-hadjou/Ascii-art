@@ -3,12 +3,17 @@ import cv2
 
 def webcam_to_string():
     cap=cv2.VideoCapture(0)
+    params={
+            
+            "nbrL": 10,
+            "fs": (100,100),        
+    }
     #show caption
 
     cap.set(3,48)
     while True:
         ret,frame=cap.read()
-        img_to_string=ImageToString(frame).image_to_string()
+        img_to_string=ImageToString(frame,params).image_to_string()
         #use terminal to see the output
         print(img_to_string)
         #clear the terminal
