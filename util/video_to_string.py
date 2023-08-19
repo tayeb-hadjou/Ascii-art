@@ -1,12 +1,7 @@
-from its_class import ImageToString
+from util.its_class import ImageToString
 import cv2 
 
-def video_to_string(video_path):
-    params={
-            
-            "nbrL": 10,
-            "fs": (100,100),        
-    }
+def video_to_string(video_path,params):
     cap=cv2.VideoCapture(video_path)
     while cap.isOpened():
         ret,frame=cap.read()

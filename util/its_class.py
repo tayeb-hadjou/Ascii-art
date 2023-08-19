@@ -1,5 +1,5 @@
 import cv2
-from util import COMBINATION
+from util.options import COMBINATION
 
 
 class ImageToString:
@@ -8,8 +8,7 @@ class ImageToString:
         self.resize = params["fs"]
         self.letter = COMBINATION["letter_"+str(params["nbrL"])]["letter"]
         self.div = COMBINATION["letter_"+str(params["nbrL"])]["div"]
-        self.pbs = 1
-    #gray scale 
+        self.pbs = 1 
     def get_gray_scale(self,frame):
         img = frame
         img = cv2.resize(img, self.resize)
@@ -26,5 +25,4 @@ class ImageToString:
                 avg = img_gray[i:i+self.pbs,j:j+self.pbs].mean()
                 text += self.letter[(int(avg)//self.div)]
             text += "\n"
-        return text
-    
+        return text    

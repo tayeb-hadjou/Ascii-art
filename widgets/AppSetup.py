@@ -1,17 +1,19 @@
-from PyQt5.QtWidgets import *
-from its_class import *
 import sys
-from PyQt5.QtGui import QPixmap
-from PyQt5.QtGui import QFont
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QComboBox, QPushButton, QLineEdit, QFileDialog, QMessageBox
+from util.its_class import ImageToString
+import os
+from PyQt5.QtGui import QPixmap, QFont, QIcon
+from PyQt5.QtCore import Qt, QSize
 
-class AppSetup(QDialog):
-    title = "Setup"
-    
+class AppSetup(QDialog):    
     def __init__(self):
         super().__init__()
-        self.setWindowTitle(self.title)
+        self.setWindowTitle("My Ascii Art")
         layout = self.setupQbox()
         self.setLayout(layout)
+        self.setFont(QFont("Arial", 10))
+        self.resize(400, 300)
+
         self.nbrLettre = 0
         self.framResize = (0, 0)
         self.data = {}
@@ -20,16 +22,16 @@ class AppSetup(QDialog):
         windowBox = QVBoxLayout()
         label1 = QLabel("Number of letter to use: ")
         label2 = QLabel("Frame resize: ")
-        label3 = QLabel("Load an image: ")
+        label3 = QLabel("Load a file: ")
 
         self.nbrInput = QComboBox()
         self.nbrInput.addItems(["5", "10", "92"])
 
         self.techniqueInput = QComboBox()
-        self.techniqueInput.addItems(["Image", "Video", "Webcam"])
+        self.techniqueInput.addItems(["400X400", "100X100", "40X40"])
 
         self.imagePathInput = QLineEdit()
-        imageButton = QPushButton("Load Image")
+        imageButton = QPushButton("Load Image/Video")
         imageButton.clicked.connect(self.loadImage)
 
         windowBox.addWidget(label1)
@@ -49,15 +51,15 @@ class AppSetup(QDialog):
     def loadImage(self):
         options = QFileDialog.Options()
         options |= QFileDialog.ReadOnly
-        filePath, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif);;All Files (*)", options=options)
-        if filePath:
-            self.imagePathInput.setText(filePath)
+        file_path, _ = QFileDialog.getOpenFileName(self, "Open Image", "", "Image Files (*.png *.jpg *.bmp *.gif *.mp4);;All Files (*)", options=options)
+        if file_path:
+            self.imagePathInput.setText(file_path)
          
 
     def setData(self):
-        if(self.techniqueInput.currentText() == "Image"):
+        if(self.techniqueInput.currentText() == "400X400"):
             fs= (400,400)
-        elif(self.techniqueInput.currentText() == "Video"):
+        elif(self.techniqueInput.currentText() == "100X100"):
             fs= (100,100)
         else:
             fs= (40,40)
@@ -74,32 +76,3 @@ class AppSetup(QDialog):
 
     def getData(self):
         return self.data
-
-def display_result(data):
-    img = cv2.imread(data["Image Path"])
-    text = ImageToString(img,data).image_to_string()
-    #display text in a window
-    window = QWidget()
-    window.setWindowTitle("Text")
-    window.resize(500, 500)
-    
-    layout = QVBoxLayout()
-    label = QLabel(text)
-    label.setFont(QFont('Arial', 2))
-    #zoom out 
-    #label.setFont(QFont('Arial', 2))
-    layout.addWidget(label)
-    window.setLayout(layout)
-    
-    window.show()
-    sys.exit(app.exec_())
-
-if __name__ == '__main__':
-    app = QApplication([])
-    setup = AppSetup()
-    
-    if setup.exec_() == QDialog.Accepted:
-        data = setup.getData()
-        display_result(data)
-    app.exec_()
-

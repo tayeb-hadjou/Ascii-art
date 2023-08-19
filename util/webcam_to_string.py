@@ -1,23 +1,19 @@
-from its_class import ImageToString
+from util.its_class import ImageToString
 import cv2 
 
 def webcam_to_string():
     cap=cv2.VideoCapture(0)
     params={
             
-            "nbrL": 10,
-            "fs": (100,100),        
+            "nbrL": 5,
+            "fs": (50,50),        
     }
-    #show caption
 
     cap.set(3,48)
     while True:
-        ret,frame=cap.read()
+        _,frame=cap.read()
         img_to_string=ImageToString(frame,params).image_to_string()
-        #use terminal to see the output
         print(img_to_string)
-        #clear the terminal
-        #print(chr(27) + "[2J")
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
     cap.release()
