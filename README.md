@@ -25,7 +25,7 @@ Ther is 3 input sources possible :
 1. Project recovery:
 to recover the project execute the following command:
 ```bash
-git clone https://github.com/tayeb-hadjou/Ascii-art
+git clone https://github.com/tayeb-hadjou/Ascii-art.git
 
 ```
 2. launch the application:
