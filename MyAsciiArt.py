@@ -22,7 +22,7 @@ def copy_result(data):
     msg.setStandardButtons(QMessageBox.Ok)
     sys.exit(msg.exec_())
 
-if __name__ == '__main__':
+def main():
     app = QApplication([])
     choice = AppChoice()
     if choice.exec_() == QDialog.Accepted :
@@ -39,3 +39,5 @@ if __name__ == '__main__':
                 data = setup.getData()
                 video_to_string(data["Image Path"],data)
     app.quit()
+if __name__ == '__main__':
+    main()
